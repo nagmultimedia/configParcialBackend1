@@ -3,9 +3,6 @@ server:
 spring:
   application:
     name: api-serie
-spring:
-  application:
-    name: api-serie
   mongodb:
     embedded:
       version: 4.0.2
