@@ -40,6 +40,13 @@ resilience4j:
           wait-duration: 2s
           retry-exceptions:
             - java.net.ConnectException
+      instances:
+        retryGenreS:
+          base-config: default
+          max-retry-attempts: 5
+          wait-duration: 2s
+          retry-exceptions:
+            - java.net.ConnectException
   circuitbreaker:
     configs:
       default:
@@ -52,6 +59,12 @@ resilience4j:
         failure-rate-threshold: 50
     instances:
       searchGenres:
+        base-config: default
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        wait-duration-in-open-state: 1m
+        failure-rate-threshold: 20
+      searchGenresS:
         base-config: default
         sliding-window-type: COUNT_BASED
         sliding-window-size: 5
