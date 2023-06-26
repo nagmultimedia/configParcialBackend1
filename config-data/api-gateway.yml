@@ -3,21 +3,29 @@ server:
 
 spring:
   application:
-    name: gateway
+    name: api-gateway
   cloud:    
     gateway:      
       discovery:
         locator:
           enabled: true
       routes:
-        - id: ms-api-movie
-          uri: lb://api-movie
-          predicates:
-            - Path=/api/v1/movies/**
-        - id: ms-api-catalog
+     routes:
+        - id: api-catalog
           uri: lb://api-catalog
           predicates:
             - Path=/api/v1/catalog/**
+            
+        - id: api-movie
+          uri: lb://api-movie
+          predicates:
+            - Path=/api/v1/movies/**
+
+        - id: api-serie
+          uri: lb://api-serie
+          predicates:
+            - Path=/api/v1/series/**
+
         
 info:
   app:

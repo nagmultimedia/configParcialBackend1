@@ -3,15 +3,23 @@ server:
 spring:
   application:
     name: api-catalog
-  mongodb:
-    embedded:
-      version: 4.0.2
   data:
     mongodb:
-      database: test
-      port: 27018
-
-urlCheck: http://localhost:8080
+      username: usr-movie-mongo
+      password: pwd-movie-mongo
+      database: movie-dev-mongo
+      port: 27017
+      host: localhost
+  rabbitmq:
+     username: guest
+     password: guest
+     host: localhost
+     port: 5672
+  zipkin:
+    baseUrl: http://localhost:9411/
+info:
+  application:
+    name: api-catalog
 
 eureka:
   instance:
@@ -34,18 +42,20 @@ resilience4j:
           - java.io.IOException
           - java.net.SocketTimeoutException
       instances:
-        retryGenre:
+        retrySearchGenre:
           base-config: default
           max-retry-attempts: 5
           wait-duration: 2s
           retry-exceptions:
             - java.net.ConnectException
-        retryGenreS:
-          base-config: default
-          max-retry-attempts: 5
-          wait-duration: 2s
-          retry-exceptions:
-            - java.net.ConnectException
+  
+  management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
   circuitbreaker:
     configs:
       default:
@@ -57,7 +67,7 @@ resilience4j:
         automatic-transition-from-open-to-half-open-enabled: true
         failure-rate-threshold: 50
     instances:
-      searchGenres:
+      searchGenre:
         base-config: default
         sliding-window-type: COUNT_BASED
         sliding-window-size: 5
